@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upraviť profil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #81B299;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: black;
+            width: 400px;
+        }
+        .form-container h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .form-container input {
+            margin-bottom: 15px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .form-container .delete-btn {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Upraviť profil</h1>
+        <?php if (!empty($errors)): ?>
+            <ul style="color: red;">
+                <?php foreach ($errors as $error): ?>
+                    <li><?= htmlspecialchars($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        <?php if (!empty($success)): ?>
+            <p style="color: green;"><?= htmlspecialchars($success) ?></p>
+        <?php endif; ?>
+        <form method="post">
+            <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" placeholder="Meno" required>
+            <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" placeholder="Email" required>
+            <input type="password" name="current_password" placeholder="Aktuálne heslo">
+            <input type="password" name="new_password" placeholder="Nové heslo">
+            <input type="password" name="confirm_password" placeholder="Potvrdiť nové heslo">
+            <button type="submit" name="update_profile">Uložiť zmeny</button>
+        </form>
+        <form method="post">
+            <button type="submit" name="delete_profile" class="delete-btn">Vymazať profil</button>
+        </form>
+    </div>
+</body>
+</html>
