@@ -69,8 +69,8 @@
             <form method="post" action="index.php?page=dashboard">
                 <label for="role">Režim:</label>
                 <select name="role" id="role" onchange="this.form.submit()">
-                    <option value="farmer" <?= $user['role'] === 'farmer' ? 'selected' : '' ?>>Farmár</option>
-                    <option value="customer" <?= $user['role'] === 'customer' ? 'selected' : '' ?>>Zákazník</option>
+                    <option value="farmer" <?= $user['role'] === 'farmer' ? 'selected' : '' ?>>Predaj</option>
+                    <option value="customer" <?= $user['role'] === 'customer' ? 'selected' : '' ?>>Nákup</option>
                 </select>
             </form>
         </div>
@@ -79,11 +79,11 @@
             <h2>Možnosti:</h2>
             <ul>
                 <?php if ($user['role'] === 'farmer'): ?>
-                    <li><a href="manage_products.php">Spravovať ponuky</a></li>
+                    <li><a href="index.php?page=manage_products">Spravovať ponuku</a></li>
                     <li><a href="view_orders.php">Spravovať objednávky</a></li>
-                    <li><a href="manage_harvest_events.php">Spravovať udalosti samosběru</a></li>
+                    <li><a href="manage_harvest_events.php">Moje samozbery</a></li>
                 <?php elseif ($user['role'] === 'customer'): ?>
-                    <li><a href="browse_products.php">Prehliadať ponuky</a></li>
+                    <li><a href="browse_products.php">Prehliadať produkty</a></li>
                     <li><a href="view_orders.php">Moje objednávky</a></li>
                 <?php endif; ?>
                 <li><a href="index.php?page=profile">Upraviť profil</a></li>

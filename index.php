@@ -30,6 +30,10 @@ switch ($page) {
         require_once __DIR__ . '/src/Controllers/LogoutController.php';
         break;
 
+    case 'manage_products':
+        require_once __DIR__ . '/src/Controllers/ManageProductsController.php';
+        break;
+
     case 'home':
     default:
         require_once __DIR__ . '/src/Controllers/HomeController.php';
