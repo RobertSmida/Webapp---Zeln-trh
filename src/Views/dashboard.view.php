@@ -80,11 +80,11 @@
             <ul>
                 <?php if ($user['role'] === 'farmer'): ?>
                     <li><a href="index.php?page=manage_products">Spravovať ponuku</a></li>
-                    <li><a href="view_orders.php">Spravovať objednávky</a></li>
-                    <li><a href="manage_harvest_events.php">Moje samozbery</a></li>
+                    <li><a href="index.php?page=orders">Spravovať objednávky</a></li>
+                    <li><a href="index.php?page=harvest_events">Moje samozbery</a></li>
                 <?php elseif ($user['role'] === 'customer'): ?>
-                    <li><a href="browse_products.php">Prehliadať produkty</a></li>
-                    <li><a href="view_orders.php">Moje objednávky</a></li>
+                    <li><a href="index.php?page=browse_products">Prehliadať produkty</a></li>
+                    <li><a href="index.php?page=orders">Moje objednávky</a></li>
                 <?php endif; ?>
                 <li><a href="index.php?page=profile">Upraviť profil</a></li>
                 <li><a href="index.php?page=logout" class="secondary">Odhlásiť sa</a></li>
