@@ -38,6 +38,10 @@ switch ($page) {
     default:
         require_once __DIR__ . '/src/Controllers/HomeController.php';
         break;
+    
+    case 'browse_products':
+        require_once __DIR__ . '/src/Controllers/BrowseProductsController.php';
+        break;
 }
 
 // Tento súbor neobsahuje ďalší HTML alebo logiku - iba spravuje tok aplikácie.
