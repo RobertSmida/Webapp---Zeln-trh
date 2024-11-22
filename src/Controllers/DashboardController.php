@@ -20,4 +20,13 @@ if (!$user) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
+    $new_role = $_POST['role'];
+
+    if (in_array($new_role, ['farmer', 'customer'])) {
+        $_SESSION['user_role'] = $new_role;
+        $user['role'] = $new_role;
+    }
+}
+
 require __DIR__ . '/../Views/dashboard.view.php';

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../config/database.php';
 $db = require __DIR__ . '/../../config/database.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ../public/login.php');
+    header('Location: index.php?page=login');
     exit();
 }
 
