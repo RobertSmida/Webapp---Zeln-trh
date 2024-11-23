@@ -1,29 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <?php if ($current_level == 'others'): ?>
-        <a href="index.php?page=browse_products&category_id=<?= $current_category['id'] ?>" class="btn btn-secondary mb-3">Späť</a>
-    <?php endif; ?>
-    <?php if ($current_level == 'subcategory'): ?>
-        <a href="index.php?page=browse_products&category_id=<?= $current_category['id'] ?>" class="btn btn-secondary mb-3">Späť</a>
-    <?php endif; ?>
-    <?php if ($current_level == 'category'): ?>
-        <a href="index.php?page=browse_products" class="btn btn-secondary mb-3">Späť</a>
-    <?php endif; ?>
     <title>Prehliadať produkty</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .top-left {
+        .top-buttons {
             position: absolute;
             top: 15px;
-            right: 15px;
+            left: 15px;
+            display: flex;
+            gap: 10px;
         }
     </style>
 </head>
 <body>
 <div class="container mt-5">
+
+    <div class="top-buttons">
+        <a href="index.php?page=dashboard" class="btn btn-primary">Späť na Dashboard</a>
+        <?php if ($current_level != 'main'): ?>
+            <a href="<?php
+                if ($current_level == 'category') {
+                    echo 'index.php?page=browse_products';
+                } elseif ($current_level == 'subcategory' && isset($current_category['id'])) {
+                    echo 'index.php?page=browse_products&category_id=' . $current_category['id'];
+                }
+            ?>" class="btn btn-secondary">Späť</a>
+        <?php endif; ?>
+    </div>
+
+    <div style="clear: both;"></div>
     
-    <a href="index.php?page=dashboard" class="btn btn-primary top-right">Späť na Dashboard</a>
+    <div class="container mt-5">
+
+        <?php if (isset($_GET['error'])): ?>
+            <div class="alert alert-danger" id="message">
+                <?= htmlspecialchars($_GET['error']) ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_GET['success'])): ?>
+            <div class="alert alert-success" id="message">
+                <?= htmlspecialchars($_GET['success']) ?>
+            </div>
+        <?php endif; ?>
+
+        <script>
+            setTimeout(function() {
+                var message = document.getElementById('message');
+                if (message) {
+                    message.style.display = 'none';
+                }
+            }, 1500); 
+        </script>
+    </div>
+
+    <?php
+    if (isset($current_category)) {
+        if ($current_category['id'] == 2) { 
+            $others_subcategory_id = 998;
+        } elseif ($current_category['id'] == 1) { 
+            $others_subcategory_id = 999;
+        } else {
+            $others_subcategory_id = null;
+        }
+    }
+    ?>
 
     <?php if ($current_level == 'main'): ?>
         <h1>Prehliadať produkty</h1>
@@ -50,52 +92,64 @@
                     </a>
                 </li>
             <?php endforeach; ?>
-            <li class="list-group-item">
-                <a href="index.php?page=browse_products&category_id=<?= $current_category['id'] ?>&others=1">Others</a>
-            </li>
+            
         </ul>
 
     <?php elseif ($current_level == 'subcategory'): ?>
-        <h2><?= htmlspecialchars($current_subcategory['name']) ?></h2>
+        <?php
+        $is_others = ($current_subcategory['id'] == 998 || $current_subcategory['id'] == 999);
+        ?>
+        <h2>
+            <?php if ($is_others): ?>
+                <?= htmlspecialchars($current_category['name']) ?> - Others
+            <?php else: ?>
+                <?= htmlspecialchars($current_subcategory['name']) ?>
+            <?php endif; ?>
+        </h2>
+        
     <?php endif; ?>
-
     <h3>Produkty:</h3>
-    <?php if (empty($products)): ?>
-        <p>Žiadne produkty k zobrazeniu.</p>
-    <?php else: ?>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Názov</th>
-                    <th>Cena/Kg (€)</th>
-                    <th>Dostupné množstvo</th>
-                    <th>Farmár</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($products as $product): ?>
+        <?php if (empty($products)): ?>
+            <p>Žiadne produkty k zobrazeniu.</p>
+        <?php else: ?>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td><?= htmlspecialchars($product['name']) ?></td>
-                        <td><?= htmlspecialchars($product['price_per_unit']) ?></td>
-                        <td><?= htmlspecialchars($product['available_quantity']) ?></td>
-                        <td>
-                            <?php
-                            $stmt = $db->prepare("SELECT name FROM users WHERE id = ?");
-                            $stmt->execute([$product['farmer_id']]);
-                            $farmer = $stmt->fetch(PDO::FETCH_ASSOC);
-                            echo htmlspecialchars($farmer['name']);
-                            ?>
-                        </td>
+                        <th>Názov</th>
+                        <th>Cena/Kg (€)</th>
+                        <th>Dostupné množstvo ( Kg )</th>
+                        <th>Farmár</th>
+                        <th>Pridať do košíka</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
-
-    <?php if ($current_level == 'others'): ?>
-        <h2><?= htmlspecialchars($current_category['name']) ?> - Others</h2>
-    <?php endif; ?>
-
+                </thead>
+                <tbody>
+                    <?php foreach ($products as $product): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($product['name']) ?></td>
+                            <td><?= htmlspecialchars($product['price_per_unit']) ?></td>
+                            <td><?= htmlspecialchars($product['available_quantity']) ?></td>
+                            <td>
+                                <?php
+                                // Fetch farmer's name
+                                $stmt = $db->prepare("SELECT name FROM users WHERE id = ?");
+                                $stmt->execute([$product['farmer_id']]);
+                                $farmer = $stmt->fetch(PDO::FETCH_ASSOC);
+                                echo htmlspecialchars($farmer['name']);
+                                ?>
+                            </td>
+                            <td>
+                                <form method="post" action="index.php?page=add_to_cart" style="display: flex; gap: 5px;">
+                                    <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                                    <button type="submit" name="quantity" value="0.1" class="btn btn-sm btn-primary">+100g</button>
+                                    <button type="submit" name="quantity" value="0.5" class="btn btn-sm btn-primary">+500g</button>
+                                    <button type="submit" name="quantity" value="1.0" class="btn btn-sm btn-primary">+1000g</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
 </div>
 </body>
 </html>

@@ -33,14 +33,15 @@ switch ($page) {
     case 'manage_products':
         require_once __DIR__ . '/src/Controllers/ManageProductsController.php';
         break;
-
+    case 'browse_products':
+        require_once __DIR__ . '/src/Controllers/BrowseProductsController.php';
+        break;
+    case 'add_to_cart':
+        require_once __DIR__ . '/src/Controllers/AddToCartController.php';
+        break;
     case 'home':
     default:
         require_once __DIR__ . '/src/Controllers/HomeController.php';
-        break;
-    
-    case 'browse_products':
-        require_once __DIR__ . '/src/Controllers/BrowseProductsController.php';
         break;
 }
 
