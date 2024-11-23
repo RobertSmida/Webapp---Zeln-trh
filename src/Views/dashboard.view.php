@@ -70,8 +70,8 @@
             <form method="post" action="index.php?page=dashboard">
                 <label for="role">Režim:</label>
                 <select name="role" id="role" onchange="this.form.submit()">
-                    <option value="farmer" <?= $user['role'] === 'farmer' ? 'selected' : '' ?>>Predaj</option>
-                    <option value="customer" <?= $user['role'] === 'customer' ? 'selected' : '' ?>>Nákup</option>
+                    <option value="farmer" <?= $_SESSION['user_role'] === 'farmer' ? 'selected' : '' ?>>Predaj</option>
+                    <option value="customer" <?= $_SESSION['user_role'] === 'customer' ? 'selected' : '' ?>>Nákup</option>
                 </select>
             </form>
         </div>

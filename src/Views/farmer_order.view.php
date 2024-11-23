@@ -17,7 +17,7 @@
 <div class="container mt-5">
 
     <div class="top-buttons">
-        <a href="index.php?page=dashboard" class="btn btn-primary">Späť na Dashboard</a>
+        <a href="index.php?page=dashboard&role=<?= $_SESSION['user_role'] ?>" class="btn btn-primary">Späť na Dashboard</a>
     </div>
 
     <h1>Správa objednávok</h1>

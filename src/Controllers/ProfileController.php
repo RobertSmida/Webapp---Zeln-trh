@@ -67,6 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $success = "Profil bol úspešne aktualizovaný.";
             $user['name'] = $name;
             $user['email'] = $email;
+
+            header('Location: index.php?page=dashboard');
+            exit();
         }
     }
 

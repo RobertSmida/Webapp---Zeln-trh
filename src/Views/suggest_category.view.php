@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<div class="top-buttons">
+    <a href="index.php?page=dashboard&role=<?= $_SESSION['user_role'] ?>" class="btn btn-primary">Späť na Dashboard</a>
+</div>
 <head>
     <title>Navrhnúť podkategóriu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">

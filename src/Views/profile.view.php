@@ -52,6 +52,10 @@
 </head>
 <body>
     <div class="form-container">
+        <div class="top-buttons">
+            <a href="index.php?page=dashboard&role=<?= $_SESSION['user_role'] ?>" class="btn btn-primary">Späť na Dashboard</a>
+        </div>
+        <br></br>
         <h1>Upraviť profil</h1>
         <?php if (!empty($errors)): ?>
             <ul style="color: red;">
