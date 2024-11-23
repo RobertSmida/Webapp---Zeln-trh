@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <div class="top-buttons">
+        <a href="index.php?page=dashboard" class="btn btn-primary">Späť na Dashboard</a>
+    </div>
     <title>Spravovať ponuku</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -25,8 +28,8 @@
             <thead>
                 <tr>
                     <th>Názov</th>
-                    <th>Cena (€)</th>
-                    <th>Množstvo</th>
+                    <th>Cena/Kg (€)</th>
+                    <th>Dostupné množstvo (Kg)</th>
                     <th>Akcie</th>
                 </tr>
             </thead>
@@ -34,8 +37,8 @@
                 <?php foreach ($products as $product): ?>
                     <tr>
                         <td><?= htmlspecialchars($product['name']) ?></td>
-                        <td><?= htmlspecialchars($product['price']) ?></td>
-                        <td><?= htmlspecialchars($product['quantity']) ?></td>
+                        <td><?= htmlspecialchars($product['price_per_unit']) ?></td>
+                        <td><?= htmlspecialchars($product['available_quantity']) ?></td>
                         <td>
                             <form method="post" class="d-inline">
                                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
@@ -44,8 +47,8 @@
                             <form method="post" class="d-inline">
                                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                                 <input type="text" name="name" value="<?= htmlspecialchars($product['name']) ?>" placeholder="Názov" class="form-control form-control-sm d-inline-block w-auto">
-                                <input type="number" name="price" value="<?= htmlspecialchars($product['price']) ?>" step="0.01" placeholder="Cena" class="form-control form-control-sm d-inline-block w-auto">
-                                <input type="number" name="quantity" value="<?= htmlspecialchars($product['quantity']) ?>" placeholder="Množstvo" class="form-control form-control-sm d-inline-block w-auto">
+                                <input type="number" name="price_per_unit" value="<?= htmlspecialchars($product['price_per_unit']) ?>" step="0.01" placeholder="Cena/Kg (€)" class="form-control form-control-sm d-inline-block w-auto">
+                                <input type="number" name="available_quantity" value="<?= htmlspecialchars($product['available_quantity']) ?>" placeholder="Dostupné množstvo (Kg)" class="form-control form-control-sm d-inline-block w-auto">
                                 <button type="submit" name="update_product" class="btn btn-primary btn-sm">Upraviť</button>
                             </form>
                         </td>
@@ -61,12 +64,21 @@
                 <input type="text" id="name" name="name" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="price" class="form-label">Cena (€)</label>
-                <input type="number" id="price" name="price" class="form-control" step="0.01" required>
+                <label for="price_per_unit" class="form-label">Cena (€)</label>
+                <input type="number" id="price_per_unit" name="price_per_unit" class="form-control" step="0.01" required>
             </div>
             <div class="mb-3">
-                <label for="quantity" class="form-label">Množstvo</label>
-                <input type="number" id="quantity" name="quantity" class="form-control" required>
+                <label for="available_quantity" class="form-label">Množstvo</label>
+                <input type="number" id="available_quantity" name="available_quantity" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="category_id" class="form-label">Podkategória</label>
+                <select id="category_id" name="category_id" class="form-select" required>
+                    <option value="">-- Vyberte podkategóriu --</option>
+                    <?php foreach ($subcategories as $subcategory): ?>
+                        <option value="<?= htmlspecialchars($subcategory['id']) ?>"><?= htmlspecialchars($subcategory['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <button type="submit" name="create_product" class="btn btn-success">Pridať produkt</button>
         </form>

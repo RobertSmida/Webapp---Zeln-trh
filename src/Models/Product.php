@@ -16,20 +16,23 @@ class Product
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function create($user_id, $name, $price, $quantity)
+    public function create($user_id, $name, $price_per_unit, $available_quantity, $category_id)
     {
-        $stmt = $this->db->prepare("INSERT INTO products (farmer_id, name, price, quantity) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$user_id, $name, $price, $quantity]);
+        $stmt = $this->db->prepare("INSERT INTO products (farmer_id, name, price_per_unit, available_quantity, category_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$user_id, $name, $price_per_unit, $available_quantity, $category_id]);
     }
 
-    public function update($product_id, $user_id, $name, $price, $quantity)
+    public function update($product_id, $user_id, $name, $price_per_unit, $available_quantity)
     {
-        $stmt = $this->db->prepare("UPDATE products SET name = ?, price = ?, quantity = ? WHERE id = ? AND farmer_id = ?");
-        $stmt->execute([$name, $price, $quantity, $product_id, $user_id]);
+        $stmt = $this->db->prepare("UPDATE products SET name = ?, price_per_unit = ?, available_quantity = ? WHERE id = ? AND farmer_id = ?");
+        $stmt->execute([$name, $price_per_unit, $available_quantity, $product_id, $user_id]);
     }
 
     public function delete($product_id, $user_id)
     {
+        $stmt = $this->db->prepare("DELETE FROM orders WHERE product_id = ?");
+        $stmt->execute([$product_id]);
+
         $stmt = $this->db->prepare("DELETE FROM products WHERE id = ? AND farmer_id = ?");
         $stmt->execute([$product_id, $user_id]);
     }

@@ -17,11 +17,17 @@ class Category
     }
 
     public function getSubcategories($parent_id)
-{
-    $stmt = $this->db->prepare("SELECT * FROM categories WHERE parent_id = ? AND is_accepted = TRUE");
-    $stmt->execute([$parent_id]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+    {
+        $stmt = $this->db->prepare("SELECT * FROM categories WHERE parent_id = ? AND is_accepted = TRUE");
+        $stmt->execute([$parent_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getAllSubcategories()
+    {
+        $stmt = $this->db->prepare("SELECT * FROM categories WHERE parent_id IS NOT NULL AND is_accepted = TRUE");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function getCategoryById($category_id)
     {

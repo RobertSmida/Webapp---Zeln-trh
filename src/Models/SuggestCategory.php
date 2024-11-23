@@ -16,9 +16,9 @@ class SuggestCategory
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function suggestCategory($name, $parent_id)
+    public function suggestCategory($name, $parent_id, $required_attributes = null)
     {
-        $stmt = $this->db->prepare("INSERT INTO categories (name, parent_id, is_accepted) VALUES (?, ?, FALSE)");
-        $stmt->execute([$name, $parent_id]);
+        $stmt = $this->db->prepare("INSERT INTO categories (name, parent_id, required_attributes, is_accepted) VALUES (?, ?, ?, FALSE)");
+        $stmt->execute([$name, $parent_id, $required_attributes]);
     }
 }
