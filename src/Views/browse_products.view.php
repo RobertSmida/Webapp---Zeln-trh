@@ -16,7 +16,13 @@
 <body>
 <div class="container mt-5">
     <div class="top-buttons">
+
+        <?php if ($_SESSION['user_role'] !== 'nonreg'): ?>
         <a href="index.php?page=dashboard" class="btn btn-primary">Späť na Dashboard</a>
+        <?php else: ?>
+        <a href="index.php?page=home" class="btn btn-primary">Späť na prihlásenie</a>
+        <?php endif; ?>
+
         <?php if ($current_level != 'main'): ?>
             <a href="<?php
                 if ($current_level == 'category') {
@@ -121,7 +127,9 @@
                         <th>Dostupné množstvo ( Kg )</th>
                         <th>Farmár</th>
                         <th>Hodnotenie (počet)</th>
+                        <?php if ($_SESSION['user_role'] !== 'nonreg'): ?>
                         <th>Pridať do košíka</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -139,6 +147,7 @@
                                 ?>
                             </td>
                             <td><?= htmlspecialchars($product['average_rating']) ?> (<?= htmlspecialchars($product['number_of_reviews']) ?>)</td>
+                            <?php if ($_SESSION['user_role'] !== 'nonreg'): ?>
                             <td>
                                 <form method="post" action="index.php?page=add_to_cart" style="display: flex; gap: 5px;">
                                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
@@ -147,6 +156,7 @@
                                     <button type="submit" name="quantity" value="1.0" class="btn btn-sm btn-primary">+1000g</button>
                                 </form>
                             </td>
+                            <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
