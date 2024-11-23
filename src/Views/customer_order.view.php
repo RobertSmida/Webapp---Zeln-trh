@@ -64,6 +64,25 @@
                                 Settled
                             <?php endif; ?>
                         </td>
+                        <td>
+                            <?php if ($order['status'] === 'settled'): ?>
+                                <?php if (empty($order['reviewed'])): ?>
+                                    <form method="post" style="display: inline;">
+                                        <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
+                                        <input type="hidden" name="product_id" value="<?= $order['product_id'] ?>">
+                                        <?php for ($rating = 1; $rating <= 5; $rating++): ?>
+                                            <button type="submit" name="submit_review" value="<?= $rating ?>" class="btn btn-sm btn-outline-primary">
+                                                <?= $rating ?>
+                                            </button>
+                                        <?php endfor; ?>
+                                    </form>
+                                <?php else: ?>
+                                    Hodnotenie odoslané
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <?= ucfirst(htmlspecialchars($order['status'])) ?>
+                            <?php endif; ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

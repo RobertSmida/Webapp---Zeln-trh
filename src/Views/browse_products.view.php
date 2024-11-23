@@ -15,7 +15,6 @@
 </head>
 <body>
 <div class="container mt-5">
-
     <div class="top-buttons">
         <a href="index.php?page=dashboard" class="btn btn-primary">Späť na Dashboard</a>
         <?php if ($current_level != 'main'): ?>
@@ -28,7 +27,7 @@
             ?>" class="btn btn-secondary">Späť</a>
         <?php endif; ?>
     </div>
-
+    <br><br>
     <div style="clear: both;"></div>
     
     <div class="container mt-5">
@@ -69,6 +68,7 @@
 
     <?php if ($current_level == 'main'): ?>
         <h1>Prehliadať produkty</h1>
+        <br><br>
         <h2>Kategórie:</h2>
         <ul class="list-group">
             <?php foreach ($categories as $category): ?>
@@ -108,6 +108,7 @@
         </h2>
         
     <?php endif; ?>
+    <br><br>
     <h3>Produkty:</h3>
         <?php if (empty($products)): ?>
             <p>Žiadne produkty k zobrazeniu.</p>
