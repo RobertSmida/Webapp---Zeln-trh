@@ -44,7 +44,10 @@ switch ($page) {
         break;
     case 'farmer_orders':
         require_once __DIR__ . '/src/Controllers/FarmerOrderController.php';
-        break;       
+        break;
+    case 'suggest_category':
+        require_once __DIR__ . '/src/Controllers/SuggestCategoryController.php';
+        break;
     case 'home':
     default:
         require_once __DIR__ . '/src/Controllers/HomeController.php';
