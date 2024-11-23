@@ -127,6 +127,7 @@
                         <th>Dostupné množstvo ( Kg )</th>
                         <th>Farmár</th>
                         <th>Hodnotenie (počet)</th>
+
                         <?php if ($_SESSION['user_role'] !== 'nonreg'): ?>
                         <th>Pridať do košíka</th>
                         <?php endif; ?>
@@ -147,6 +148,7 @@
                                 ?>
                             </td>
                             <td><?= htmlspecialchars($product['average_rating']) ?> (<?= htmlspecialchars($product['number_of_reviews']) ?>)</td>
+                            
                             <?php if ($_SESSION['user_role'] !== 'nonreg'): ?>
                             <td>
                                 <form method="post" action="index.php?page=add_to_cart" style="display: flex; gap: 5px;">
