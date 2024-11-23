@@ -39,6 +39,12 @@ switch ($page) {
     case 'add_to_cart':
         require_once __DIR__ . '/src/Controllers/AddToCartController.php';
         break;
+    case 'customer_orders':
+        require_once __DIR__ . '/src/Controllers/CustomerOrderController.php';
+        break;
+    case 'farmer_orders':
+        require_once __DIR__ . '/src/Controllers/FarmerOrderController.php';
+        break;       
     case 'home':
     default:
         require_once __DIR__ . '/src/Controllers/HomeController.php';
