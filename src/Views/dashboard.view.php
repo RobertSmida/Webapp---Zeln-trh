@@ -65,6 +65,7 @@
     <div class="container">
         <h1>Vitajte, <?= htmlspecialchars($user['name']) ?>!</h1>
 
+        <?php if ($user['role'] !== 'admin'): ?>
         <div class="toggle-role">
             <form method="post" action="index.php?page=dashboard">
                 <label for="role">Režim:</label>
@@ -74,6 +75,7 @@
                 </select>
             </form>
         </div>
+        <?php endif; ?>
 
         <div class="options">
             <h2>Možnosti:</h2>
@@ -86,6 +88,8 @@
                 <?php elseif ($user['role'] === 'customer'): ?>
                     <li><a href="index.php?page=browse_products">Prehliadať produkty</a></li>
                     <li><a href="index.php?page=customer_orders">Moje objednávky</a></li>
+                <?php elseif ($user['role'] === 'admin'): ?>
+                    <li><a href="index.php?page=manage_users">Spravovať užívateľov</a></li>
                 <?php endif; ?>
                 <li><a href="index.php?page=profile">Upraviť profil</a></li>
                 <li><a href="index.php?page=logout" class="secondary">Odhlásiť sa</a></li>

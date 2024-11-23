@@ -30,24 +30,34 @@ switch ($page) {
         require_once __DIR__ . '/src/Controllers/LogoutController.php';
         break;
 
+    case 'manage_users':
+        require_once __DIR__ . '/src/Controllers/ManageUsersController.php';
+        break;
+
     case 'manage_products':
         require_once __DIR__ . '/src/Controllers/ManageProductsController.php';
         break;
+
     case 'browse_products':
         require_once __DIR__ . '/src/Controllers/BrowseProductsController.php';
         break;
+
     case 'add_to_cart':
         require_once __DIR__ . '/src/Controllers/AddToCartController.php';
         break;
+
     case 'customer_orders':
         require_once __DIR__ . '/src/Controllers/CustomerOrderController.php';
         break;
+
     case 'farmer_orders':
         require_once __DIR__ . '/src/Controllers/FarmerOrderController.php';
         break;
+
     case 'suggest_category':
         require_once __DIR__ . '/src/Controllers/SuggestCategoryController.php';
         break;
+
     case 'home':
     default:
         require_once __DIR__ . '/src/Controllers/HomeController.php';

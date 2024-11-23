@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Neplatný formát emailu.";
     }
-    if (empty($password) || strlen($password) < 6) {
-        $errors[] = "Heslo musí mať aspoň 6 znakov.";
+    if (empty($password)) {
+        $errors[] = "Heslo je povinné.";
     }
     if ($password !== $confirm_password) {
         $errors[] = "Heslá sa nezhodujú.";
