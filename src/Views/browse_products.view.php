@@ -120,6 +120,7 @@
                         <th>Cena/Kg (€)</th>
                         <th>Dostupné množstvo ( Kg )</th>
                         <th>Farmár</th>
+                        <th>Hodnotenie (počet)</th>
                         <th>Pridať do košíka</th>
                     </tr>
                 </thead>
@@ -131,13 +132,13 @@
                             <td><?= htmlspecialchars($product['available_quantity']) ?></td>
                             <td>
                                 <?php
-                                // Fetch farmer's name
                                 $stmt = $db->prepare("SELECT name FROM users WHERE id = ?");
                                 $stmt->execute([$product['farmer_id']]);
                                 $farmer = $stmt->fetch(PDO::FETCH_ASSOC);
                                 echo htmlspecialchars($farmer['name']);
                                 ?>
                             </td>
+                            <td><?= htmlspecialchars($product['average_rating']) ?> (<?= htmlspecialchars($product['number_of_reviews']) ?>)</td>
                             <td>
                                 <form method="post" action="index.php?page=add_to_cart" style="display: flex; gap: 5px;">
                                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">

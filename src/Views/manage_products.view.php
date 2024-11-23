@@ -30,7 +30,8 @@
                     <th>Názov</th>
                     <th>Cena/Kg (€)</th>
                     <th>Dostupné množstvo (Kg)</th>
-                    <th>Akcie</th>
+                    <th>Hodnotenie (počet)</th>
+                    <th>Úpravy</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +40,7 @@
                         <td><?= htmlspecialchars($product['name']) ?></td>
                         <td><?= htmlspecialchars($product['price_per_unit']) ?></td>
                         <td><?= htmlspecialchars($product['available_quantity']) ?></td>
+                        <td><?= htmlspecialchars($product['average_rating']) ?> (<?= htmlspecialchars($product['number_of_reviews']) ?>)</td>
                         <td>
                             <form method="post" class="d-inline">
                                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
