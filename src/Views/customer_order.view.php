@@ -66,17 +66,17 @@
                             <?php endif; ?>
                         </td>
                         <td>
-                            <?php if ($order['status'] === 'settled' && empty($order['reviewed'])): ?>
-                                <form method="post" style="display: inline;">
+                        <?php if ($order['status'] === 'settled' && !$order['reviewed']): ?>
+                                <form method="post">
                                     <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                                     <input type="hidden" name="product_id" value="<?= $order['product_id'] ?>">
-                                    <?php for ($rating = 1; $rating <= 5; $rating++): ?>
-                                        <button type="submit" name="submit_review" value="<?= $rating ?>" class="btn btn-sm btn-outline-primary">
-                                            <?= $rating ?>
-                                        </button>
-                                    <?php endfor; ?>
+                                    <button type="submit" name="submit_review" value="1" class="btn btn-sm btn-outline-primary">1</button>
+                                    <button type="submit" name="submit_review" value="2" class="btn btn-sm btn-outline-primary">2</button>
+                                    <button type="submit" name="submit_review" value="3" class="btn btn-sm btn-outline-primary">3</button>
+                                    <button type="submit" name="submit_review" value="4" class="btn btn-sm btn-outline-primary">4</button>
+                                    <button type="submit" name="submit_review" value="5" class="btn btn-sm btn-outline-primary">5</button>
                                 </form>
-                            <?php elseif (!empty($order['reviewed'])): ?>
+                            <?php elseif ($order['reviewed']): ?>
                                 Hodnotenie odoslané
                             <?php else: ?>
                                 -

@@ -72,50 +72,99 @@
     }
     ?>
 
-    <?php if ($current_level == 'main'): ?>
-        <h1>Prehliadať produkty</h1>
-        <br><br>
-        <h2>Kategórie:</h2>
-        <ul class="list-group">
+    <style>
+        .category-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .category-buttons a {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .category-buttons a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <?php if ($current_level === 'main'): ?>
+        <h1>Všetky produkty</h1>
+        <br></br>
+        <h4>Kategórie:</h4>
+        <div class="category-buttons">
             <?php foreach ($categories as $category): ?>
-                <li class="list-group-item">
-                    <a href="index.php?page=browse_products&category_id=<?= $category['id'] ?>">
-                        <?= htmlspecialchars($category['name']) ?>
-                    </a>
-                </li>
+                <a href="index.php?page=browse_products&category_id=<?= $category['id'] ?>">
+                    <?= htmlspecialchars($category['name']) ?>
+                </a>
             <?php endforeach; ?>
-        </ul>
-
-    <?php elseif ($current_level == 'category'): ?>
-        <h2><?= htmlspecialchars($current_category['name']) ?></h2>
-
-        <h3>Podkategórie:</h3>
-        <ul class="list-group">
+        </div>
+    <?php elseif ($current_level === 'category'): ?>
+        <h1><?= htmlspecialchars($current_category['name']) ?></h1>
+        <br></br>
+        <h4>Podkategórie:</h4>
+        <div class="category-buttons">
             <?php foreach ($subcategories as $subcategory): ?>
-                <li class="list-group-item">
-                    <a href="index.php?page=browse_products&subcategory_id=<?= $subcategory['id'] ?>">
-                        <?= htmlspecialchars($subcategory['name']) ?>
-                    </a>
-                </li>
+                <a href="index.php?page=browse_products&subcategory_id=<?= $subcategory['id'] ?>">
+                    <?= htmlspecialchars($subcategory['name']) ?>
+                </a>
             <?php endforeach; ?>
-            
-        </ul>
+        </div>
+    <?php endif; ?>
 
-    <?php elseif ($current_level == 'subcategory'): ?>
+
+    <?php if ($current_level == 'subcategory'): ?>
         <?php
         $is_others = ($current_subcategory['id'] == 998 || $current_subcategory['id'] == 999);
         ?>
-        <h2>
+        <h1>
             <?php if ($is_others): ?>
                 <?= htmlspecialchars($current_category['name']) ?> - Others
             <?php else: ?>
                 <?= htmlspecialchars($current_subcategory['name']) ?>
             <?php endif; ?>
-        </h2>
+        </h1>
         
     <?php endif; ?>
     <br><br>
     <h3>Produkty:</h3>
+        <div class="container">
+            <div class="float-child"><h5>filter:</h5></div>
+            <div class="float-child">
+            <form method="get" action="index.php">
+                <input type="hidden" name="page" value="browse_products">
+                <?php if (isset($category_id)): ?>
+                    <input type="hidden" name="category_id" value="<?= htmlspecialchars($category_id) ?>">
+                <?php endif; ?>
+                <?php if (isset($subcategory_id)): ?>
+                    <input type="hidden" name="subcategory_id" value="<?= htmlspecialchars($subcategory_id) ?>">
+                <?php endif; ?>
+                <select name="sort_by" onchange="this.form.submit()">
+                    <option> -- Vyber filter -- </option>
+                    <option value="price_asc" <?= isset($_GET['sort_by']) && $_GET['sort_by'] === 'price_asc' ? 'selected' : '' ?>>Cena vzostupne</option>
+                    <option value="product_reviews" <?= isset($_GET['sort_by']) && $_GET['sort_by'] === 'product_reviews' ? 'selected' : '' ?>>Hodnotenie produktu</option>
+                    <option value="farmer_reviews" <?= isset($_GET['sort_by']) && $_GET['sort_by'] === 'farmer_reviews' ? 'selected' : '' ?>>Hodnotenie farmára</option>
+                </select>
+            </form>
+            </div>
+            </div>
+
+            <style>
+            .container {
+                width: 100%;
+            }
+            .float-child {
+                width: 25%;
+                float: left;
+            }
+            </style>
+
+        <br><br>
         <?php if (empty($products)): ?>
             <p>Žiadne produkty k zobrazeniu.</p>
         <?php else: ?>
@@ -126,6 +175,7 @@
                         <th>Cena/Kg (€)</th>
                         <th>Dostupné množstvo ( Kg )</th>
                         <th>Farmár</th>
+                        <th>Hodnotenie Farmára</th>
                         <th>Hodnotenie (počet)</th>
 
                         <?php if ($_SESSION['user_role'] !== 'nonreg'): ?>
@@ -147,6 +197,7 @@
                                 echo htmlspecialchars($farmer['name']);
                                 ?>
                             </td>
+                            <td><?= htmlspecialchars($product['farmer_aggregate_reviews'] ?? 'N/A') ?></td>
                             <td><?= htmlspecialchars($product['average_rating']) ?> (<?= htmlspecialchars($product['number_of_reviews']) ?>)</td>
                             
                             <?php if ($_SESSION['user_role'] !== 'nonreg'): ?>

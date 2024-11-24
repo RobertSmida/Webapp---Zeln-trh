@@ -46,13 +46,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
     if ($product) {
         $new_num_reviews = $product['number_of_reviews'] + 1;
         $new_average_rating = (($product['average_rating'] * $product['number_of_reviews']) + $rating) / $new_num_reviews;
-
+    
         $stmt = $db->prepare("UPDATE products SET number_of_reviews = ?, average_rating = ? WHERE id = ?");
         $stmt->execute([$new_num_reviews, $new_average_rating, $product_id]);
-    }
+        
+        $stmt = $db->prepare("UPDATE orders SET reviewed = 1 WHERE id = ?");
+        $stmt->execute([$order_id]);
 
-    $stmt = $db->prepare("UPDATE orders SET reviewed = 1 WHERE id = ?");
-    $stmt->execute([$order_id]);
+        $stmt = $db->prepare("
+            SELECT AVG(p.average_rating) AS farmer_avg_review
+            FROM products p
+            WHERE p.farmer_id = ?
+            AND p.number_of_reviews > 0
+        ");
+        $stmt->execute([$product['farmer_id']]);
+        $farmer_avg_review = $stmt->fetchColumn();
+    
+        $stmt = $db->prepare("UPDATE users SET farmer_aggregate_reviews = ? WHERE id = ?");
+        $stmt->execute([$farmer_avg_review, $product['farmer_id']]);
+    }
+    
 
     header('Location: index.php?page=customer_orders&success=Hodnotenie bolo odoslané.');
     exit();

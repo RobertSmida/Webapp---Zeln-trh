@@ -15,22 +15,52 @@ $productModel = new Product($db);
 $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
 $subcategory_id = isset($_GET['subcategory_id']) ? (int)$_GET['subcategory_id'] : null;
 
-if (!$category_id && !$subcategory_id) {
-    $categories = $categoryModel->getTopCategories();
-    $products = $productModel->getAllProducts();
-    $current_level = 'main';
-} elseif ($category_id && !$subcategory_id) {
+$sort_by = $_GET['sort_by'] ?? null;
+$params = []; 
+
+$sort_query = "ORDER BY p.name ASC"; 
+if ($sort_by === 'price_asc') {
+    $sort_query = "ORDER BY p.price_per_unit ASC";
+} elseif ($sort_by === 'product_reviews') {
+    $sort_query = "ORDER BY p.average_rating DESC, p.number_of_reviews DESC";
+} elseif ($sort_by === 'farmer_reviews') {
+    $sort_query = "ORDER BY u.farmer_aggregate_reviews DESC";
+}
+
+$query = "
+    SELECT p.*, u.farmer_aggregate_reviews
+    FROM products p
+    JOIN users u ON p.farmer_id = u.id
+";
+
+
+if ($subcategory_id) {
+        $query .= "WHERE p.category_id = ? ";
+        $params[] = $subcategory_id;
+    } elseif ($category_id) {
+        $query .= "WHERE p.category_id IN (SELECT id FROM categories WHERE parent_id = ?) ";
+        $params[] = $category_id;
+    }
+
+$query .= $sort_query;
+
+$stmt = $db->prepare($query);
+$stmt->execute($params);
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$current_level = 'main';
+if ($category_id && !$subcategory_id) {
     $subcategories = $categoryModel->getSubcategories($category_id);
-    $products = $productModel->getByParentCategoryId($category_id);
     $current_category = $categoryModel->getCategoryById($category_id);
     $current_level = 'category';
 } elseif ($subcategory_id) {
-    $products = $productModel->getByCategoryId($subcategory_id);
     $current_subcategory = $categoryModel->getCategoryById($subcategory_id);
     if ($current_subcategory) {
         $current_category = $categoryModel->getCategoryById($current_subcategory['parent_id']);
     }
     $current_level = 'subcategory';
 }
+
+$categories = !$category_id && !$subcategory_id ? $categoryModel->getTopCategories() : [];
 
 require __DIR__ . '/../Views/browse_products.view.php';
