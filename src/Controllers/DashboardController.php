@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Získanie údajov prihláseného užívateľa
-$stmt = $db->prepare("SELECT name, role FROM users WHERE id = ?");
+$stmt = $db->prepare("SELECT name, role, moderator FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

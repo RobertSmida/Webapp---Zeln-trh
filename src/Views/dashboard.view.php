@@ -91,6 +91,10 @@
                 <?php elseif ($user['role'] === 'admin'): ?>
                     <li><a href="index.php?page=manage_users">Spravovať užívateľov</a></li>
                 <?php endif; ?>
+                </br>
+                <?php if ($user['moderator'] == 1): ?>
+                <li><a href="index.php?page=suggestions">Spravovať kategórie</a></li>
+                <?php endif; ?>
                 <li><a href="index.php?page=profile">Upraviť profil</a></li>
                 <li><a href="index.php?page=logout" class="secondary">Odhlásiť sa</a></li>
             </ul>

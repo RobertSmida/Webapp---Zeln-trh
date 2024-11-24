@@ -21,14 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_id = (int)$_POST['user_id'];
         $name = trim($_POST['name']);
         $email = trim($_POST['email']);
-        $role = trim($_POST['role']);
+        $moderator = isset($_POST['moderator']) ? 1 : 0;
 
-        if (empty($name) || empty($email) || empty($role)) {
+        if (empty($name) || empty($email)) {
             $errors[] = "Všetky polia sú povinné.";
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "Neplatný email.";
         } else {
-            $userModel->update($user_id, $name, $email, $role);
+            $userModel->update($user_id, $name, $email, $moderator);
             $success = "Účet bol úspešne aktualizovaný.";
         }
     }

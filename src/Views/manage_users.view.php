@@ -29,7 +29,7 @@
                     <th>ID</th>
                     <th>Meno</th>
                     <th>Email</th>
-                    <th>Rola</th>
+                    <th>Moderátor</th>
                     <th>Akcie</th>
                 </tr>
             </thead>
@@ -46,11 +46,10 @@
                             <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" class="form-control form-control-sm">
                         </td>
                         <td>
-                            <select name="role" class="form-select form-select-sm">
-                                <option value="customer" <?= $user['role'] === 'customer' ? 'selected' : '' ?>>Zákazník</option>
-                                <option value="moderator" <?= $user['role'] === 'moderator' ? 'selected' : '' ?>>Moderátor</option>
-                                <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Administrátor</option>
-                            </select>
+                            <div class="form-check form-switch">
+                                <input type="checkbox" class="form-check-input" name="moderator" id="moderator-<?= $user['id'] ?>" 
+                                <?= $user['moderator'] ? 'checked' : '' ?>>
+                            </div>
                         </td>
                         <td>
                             <button type="submit" name="update_user" class="btn btn-primary btn-sm">Upraviť</button>

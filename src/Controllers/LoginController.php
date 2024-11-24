@@ -7,13 +7,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    $stmt = $db->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmt = $db->prepare("SELECT id, password, moderator FROM users WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_role'] = $user['role'];
+        $_SESSION['is_moderator'] = $user['moderator'];
         header('Location: index.php?page=dashboard');
         exit();
     } else {
