@@ -1,16 +1,19 @@
 <?php
+
 require_once __DIR__ . '/../../config/database.php';
 $db = require __DIR__ . '/../../config/database.php';
 
 $errors = [];
 
+// Spracovanie registracie noveho uzivatela
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Validácia vstupov
+    // Validacia vstupov
     if (empty($name)) {
         $errors[] = "Meno je povinné.";
     }
@@ -24,16 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Heslá sa nezhodujú.";
     }
 
-    // Kontrola, či email už neexistuje
+    // Kontrola ci existuje uzivatel s rovnakym emailom
     if (empty($errors)) {
         $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
         $stmt->execute([$email]);
+
         if ($stmt->fetchColumn() > 0) {
             $errors[] = "Email už existuje.";
         }
     }
 
-    // Uloženie nového užívateľa
+    // Vytvorenie noveho uzivatela a presmerovanie
     if (empty($errors)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 

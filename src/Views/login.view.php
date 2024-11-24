@@ -32,7 +32,6 @@
             background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 100%;
             max-width: 400px;
@@ -41,20 +40,19 @@
             margin-bottom: 15px;
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid lightgray;
             border-radius: 5px;
         }
         button {
             width: 100%;
-            background-color: #4CAF50;
+            background-color: green;
             color: white;
             border: none;
             padding: 10px;
             border-radius: 5px;
-            cursor: pointer;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: darkgreen;
         }
         p {
         margin-top: 20px;
@@ -65,14 +63,17 @@
 <body>
     <div>
         <h1>Prihlásenie</h1>
+
         <?php if (isset($error)): ?>
             <p style="color: red;"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
+
         <form method="post">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Heslo" required>
             <button type="submit">Prihlásiť sa</button>
         </form>
+        
         <p><a href="index.php?page=home">Späť na hlavnú stránku</a></p>
     </div>
 </body>
