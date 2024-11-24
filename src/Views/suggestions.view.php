@@ -6,8 +6,9 @@
 </head>
 <body class="bg-light">
     <div class="container mt-5">
-        <h1 class="mb-4">Spravovať kategórie</h1>
-        <a href="index.php?page=dashboard" class="btn btn-secondary mb-3">Späť</a>
+        
+        <h1 class="mb-3">Správa kategórií</h1>
+        <a class="btn btn-outline-primary mb-3" href="index.php?page=dashboard" role="button">Späť</a>
 
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">
@@ -23,7 +24,8 @@
             <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
         <?php endif; ?>
 
-        <h2 class="h5">Neakceptované kategórie</h2>
+        <h2 class="h4">Čakajúce kategórie</h2>
+
         <table class="table table-bordered mt-3">
             <thead>
                 <tr>
@@ -32,11 +34,12 @@
                     <th>Akcie</th>
                 </tr>
             </thead>
+            
             <tbody>
                 <?php foreach ($unacceptedCategories as $category): ?>
                     <tr>
                         <td><?= htmlspecialchars($category['name']) ?></td>
-                        <td><?= htmlspecialchars($category['parent_name'] ?? 'Žiadna') ?></td>
+                        <td><?= htmlspecialchars($category['parent_name']) ?></td>
                         <td>
                             <form method="post" class="d-inline">
                                 <input type="hidden" name="category_id" value="<?= $category['id'] ?>">
@@ -52,7 +55,8 @@
             </tbody>
         </table>
 
-        <h2 class="h5 mt-5">Akceptované kategórie</h2>
+        <h2 class="h4 mt-5">Akceptované kategórie</h2>
+
         <table class="table table-bordered mt-3">
             <thead>
                 <tr>
@@ -61,15 +65,16 @@
                     <th>Akcie</th>
                 </tr>
             </thead>
+            
             <tbody>
                 <?php foreach ($acceptedCategories as $category): ?>
                     <tr>
                         <td>
                             <form method="post" class="d-inline">
                                 <input type="hidden" name="category_id" value="<?= $category['id'] ?>">
-                                <input type="text" name="name" value="<?= htmlspecialchars($category['name']) ?>" class="form-control form-control-sm">
+                                <input type="text" name="name" value="<?= htmlspecialchars($category['name']) ?>" class="form-control">
                         </td>
-                        <td><?= htmlspecialchars($category['parent_name'] ?? 'Žiadna') ?></td>
+                        <td><?= htmlspecialchars($category['parent_name']) ?></td>
                         <td>
                             <button type="submit" name="update_category" class="btn btn-primary btn-sm">Upraviť</button>
                             <button type="submit" name="delete_category" class="btn btn-danger btn-sm">Vymazať</button>

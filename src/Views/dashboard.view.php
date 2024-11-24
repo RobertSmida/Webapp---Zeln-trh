@@ -8,16 +8,15 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: #f5f7f8;
         }
         .container {
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: white;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px lightgray;
         }
         h1 {
             text-align: center;
@@ -30,7 +29,7 @@
         }
         select {
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid lightgray;
             border-radius: 5px;
             font-size: 16px;
         }
@@ -44,20 +43,20 @@
         }
         a {
             text-decoration: none;
-            color: #fff;
+            color: white;
             background-color: #81B299;
             padding: 10px 15px;
             border-radius: 5px;
             display: inline-block;
         }
         a:hover {
-            background-color: #45a049;
+            background-color: green;
         }
         .secondary {
             background-color: #de645b;
         }
         .secondary:hover {
-            background-color: #d32f2f;
+            background-color: red;
         }
     </style>
 </head>
@@ -85,16 +84,21 @@
                     <li><a href="index.php?page=farmer_orders">Správa objednávok</a></li>
                     <li><a href="index.php?page=harvest_events">Moje samozbery</a></li>
                     <li><a href="index.php?page=suggest_category">Navrhnúť podkategóriu</a></li>
+
                 <?php elseif ($user['role'] === 'customer'): ?>
                     <li><a href="index.php?page=browse_products">Prehliadať produkty</a></li>
                     <li><a href="index.php?page=customer_orders">Moje objednávky</a></li>
+
                 <?php elseif ($user['role'] === 'admin'): ?>
                     <li><a href="index.php?page=manage_users">Spravovať užívateľov</a></li>
+                    
                 <?php endif; ?>
                 </br>
+
                 <?php if ($user['moderator'] == 1): ?>
                 <li><a href="index.php?page=suggestions">Spravovať kategórie</a></li>
                 <?php endif; ?>
+
                 <li><a href="index.php?page=profile">Upraviť profil</a></li>
                 <li><a href="index.php?page=logout" class="secondary">Odhlásiť sa</a></li>
             </ul>
