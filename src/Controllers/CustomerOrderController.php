@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
         exit();
     }
 
-    $stmt = $db->prepare("SELECT * FROM orders WHERE id = ? AND customer_id = ? AND status = 'settled' AND reviewed IS NULL");
+    $stmt = $db->prepare("SELECT * FROM orders WHERE id = ? AND customer_id = ? AND status = 'settled' AND reviewed = 0");
     $stmt->execute([$order_id, $customer_id]);
     $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
