@@ -16,11 +16,8 @@
 <body>
 <div class="container mt-5">
 
-    <div class="top-buttons">
-        <a href="index.php?page=dashboard" class="btn btn-primary">Späť na Dashboard</a>
-    </div>
-
     <h1>Moje objednávky</h1>
+    <a href="index.php?page=dashboard" class="btn btn-outline-primary my-3">Späť</a>
 
     <?php if (isset($_GET['success'])): ?>
         <div class="alert alert-success" id="success-message">
@@ -54,6 +51,7 @@
                         <td>
                             <?php if ($order['status'] === 'pending' || $order['status'] === 'cancelled'): ?>
                                 <?= ucfirst(htmlspecialchars($order['status'])) ?>
+
                             <?php elseif ($order['status'] === 'processed'): ?>
                                 <form method="post" style="margin: 0;">
                                     <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
@@ -61,6 +59,7 @@
                                         Potvrdiť dodávku
                                     </button>
                                 </form>
+                                
                             <?php elseif ($order['status'] === 'settled'): ?>
                                 Settled
                             <?php endif; ?>

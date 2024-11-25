@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html>
-<div class="top-buttons">
-    <a href="index.php?page=dashboard&role=<?= $_SESSION['user_role'] ?>" class="btn btn-primary">Späť na Dashboard</a>
-</div>
 <head>
     <title>Navrhnúť podkategóriu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -10,8 +7,8 @@
 <body>
 <div class="container mt-5">
     <h1>Navrhnúť podkategóriu</h1>
+    <a href="index.php?page=dashboard&role=<?= $_SESSION['user_role'] ?>" class="btn btn-outline-primary my-3">Späť</a>
 
-    <!-- Display Errors -->
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger">
             <ul>
@@ -22,7 +19,6 @@
         </div>
     <?php endif; ?>
 
-    <!-- Display Success Message -->
     <?php if (!empty($success)): ?>
         <div class="alert alert-success">
             <?= htmlspecialchars($success) ?>

@@ -15,14 +15,9 @@
 </head>
 <body>
 <div class="container mt-5">
-
-    <div class="top-buttons">
-        <a href="index.php?page=dashboard&role=<?= $_SESSION['user_role'] ?>" class="btn btn-primary">Späť na Dashboard</a>
-    </div>
-
     <h1>Správa objednávok</h1>
+    <a href="index.php?page=dashboard&role=<?= $_SESSION['user_role'] ?>" class="btn btn-outline-primary my-3">Späť</a>
 
-    <!-- Display Success or Error Messages -->
     <?php if (isset($_GET['success'])): ?>
         <div class="alert alert-success" id="success-message">
             <?= htmlspecialchars($_GET['success']) ?>
