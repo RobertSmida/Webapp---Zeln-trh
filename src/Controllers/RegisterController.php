@@ -22,12 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Meno je povinné.";
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $email = '';
         $errors[] = "Neplatný formát emailu.";
     }
     if (empty($password)) {
         $errors[] = "Heslo je povinné.";
     }
     if ($password !== $confirm_password) {
+        $password = '';
+        $confirm_password = '';
         $errors[] = "Heslá sa nezhodujú.";
     }
 
