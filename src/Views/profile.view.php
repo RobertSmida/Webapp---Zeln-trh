@@ -61,15 +61,17 @@
         <h1>Upraviť profil</h1>
 
         <?php if (!empty($errors)): ?>
-            <ul style="color: red;">
-                <?php foreach ($errors as $error): ?>
-                    <li><?= htmlspecialchars($error) ?></li>
-                <?php endforeach; ?>
-            </ul>
+            <div class="alert alert-danger">
+                <ul class="list-group ms-2">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         <?php endif; ?>
 
         <?php if (!empty($success)): ?>
-            <p style="color: green;"><?= htmlspecialchars($success) ?></p>
+            <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
         <?php endif; ?>
 
         <form method="post">
@@ -78,6 +80,7 @@
             <input type="password" name="current_password" placeholder="Aktuálne heslo">
             <input type="password" name="new_password" placeholder="Nové heslo">
             <input type="password" name="confirm_password" placeholder="Potvrdiť nové heslo">
+            
             <button type="submit" name="update_profile">Uložiť zmeny</button>
         </form>
 

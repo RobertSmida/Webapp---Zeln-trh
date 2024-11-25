@@ -15,7 +15,7 @@ $errors = [];
 $success = "";
 
 // Nacitanie udajov uzivatela z db
-$stmt = $db->prepare("SELECT name, email FROM users WHERE id = ?");
+$stmt = $db->prepare("SELECT name, email, role FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Osetrenie vymazania uctu uzivatela
     if (isset($_POST['delete_profile'])) {
         if ($user['role'] === 'admin') { // Kontrola, ci sa jedna o ucet admina
-            $errors[] = "Účet administrátora sa ned8 vymazať.";
+            $errors[] = "Účet administrátora sa nedá vymazať.";
         }
         else {
             $stmt = $db->prepare("DELETE FROM users WHERE id = ?");
