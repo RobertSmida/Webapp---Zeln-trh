@@ -35,12 +35,12 @@ $query = "
 ";
 
 if ($subcategory_id) {
-        $query .= "WHERE p.category_id = ? ";
-        $params[] = $subcategory_id;
-    } elseif ($category_id) {
-        $query .= "WHERE p.category_id IN (SELECT id FROM categories WHERE parent_id = ?) ";
-        $params[] = $category_id;
-    }
+    $query .= " AND p.category_id = ? ";
+    $params[] = $subcategory_id;
+} elseif ($category_id) {
+    $query .= " AND p.category_id IN (SELECT id FROM categories WHERE parent_id = ?) ";
+    $params[] = $category_id;
+}
 
 $query .= $sort_query;
 
