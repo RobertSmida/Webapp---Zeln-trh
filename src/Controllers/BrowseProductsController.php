@@ -9,6 +9,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
 $categoryModel = new Category($db);
 $productModel = new Product($db);
 
@@ -34,6 +36,11 @@ $query = "
     WHERE p.is_self_harvest = 0
 ";
 
+if ($user_id) {
+    $query .= " AND p.farmer_id != ? ";
+    $params[] = $user_id;
+}
+
 if ($subcategory_id) {
     $query .= " AND p.category_id = ? ";
     $params[] = $subcategory_id;
@@ -42,7 +49,7 @@ if ($subcategory_id) {
     $params[] = $category_id;
 }
 
-$query .= $sort_query;
+$query .= " " . $sort_query;
 
 $stmt = $db->prepare($query);
 $stmt->execute($params);

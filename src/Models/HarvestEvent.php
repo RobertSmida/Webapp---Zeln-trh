@@ -64,6 +64,7 @@ class HarvestEvent
             LEFT JOIN self_harvest_customers shc2 ON he.id = shc2.harvest_event_id
             WHERE he.end_date > NOW()
             AND he.status = 'open'
+            AND he.farmer_id != ?
             AND he.id NOT IN (
                 SELECT shc.harvest_event_id
                 FROM self_harvest_customers shc
@@ -72,7 +73,7 @@ class HarvestEvent
             GROUP BY he.id
             HAVING participant_count < he.max_capacity
         ");
-        $stmt->execute([$customer_id]);
+        $stmt->execute([$customer_id, $customer_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

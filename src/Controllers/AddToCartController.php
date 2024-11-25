@@ -12,6 +12,19 @@ $customer_id = $_SESSION['user_id'];
 $product_id = $_POST['product_id'] ?? null;
 $quantity_to_add = $_POST['quantity'] ?? null;
 
+$product_id = $_POST['product_id'];
+$user_id = $_SESSION['user_id'];
+
+$stmt = $db->prepare("SELECT farmer_id FROM products WHERE id = ?");
+$stmt->execute([$product_id]);
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($product['farmer_id'] == $user_id) {
+    header('Location: index.php?page=browse_products&error=Nemôžete si kúpiť vlastný produkt.');
+    exit();
+}
+
+
 if (!$product_id || !$quantity_to_add) {
     header('Location: index.php?page=browse_products');
     exit();
