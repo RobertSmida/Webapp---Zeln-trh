@@ -65,7 +65,9 @@ switch ($page) {
     case 'harvest_events':
         require_once __DIR__ . '/src/Controllers/HarvestEventsController.php';
         break;   
-         
+    case 'customer_harvests':
+        require_once __DIR__ . '/src/Controllers/CustomerHarvestsController.php';
+        break;     
     case 'home':
     default:
         require_once __DIR__ . '/src/Controllers/HomeController.php';

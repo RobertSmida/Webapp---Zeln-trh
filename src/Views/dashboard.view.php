@@ -87,7 +87,7 @@
                 <?php elseif ($user['role'] === 'customer'): ?>
                     <li><a href="index.php?page=browse_products">Prehliadať produkty</a></li>
                     <li><a href="index.php?page=customer_orders">Moje objednávky</a></li>
-
+                    <li><a href="index.php?page=customer_harvests">Prehliadať samozbery</a></li>
                 <?php elseif ($user['role'] === 'admin'): ?>
                     <li><a href="index.php?page=manage_users">Spravovať užívateľov</a></li>
                     

@@ -31,8 +31,8 @@ $query = "
     SELECT p.*, u.farmer_aggregate_reviews
     FROM products p
     JOIN users u ON p.farmer_id = u.id
+    WHERE p.is_self_harvest = 0
 ";
-
 
 if ($subcategory_id) {
         $query .= "WHERE p.category_id = ? ";
