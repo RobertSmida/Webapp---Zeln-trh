@@ -57,7 +57,9 @@ class Category
             WHERE c.is_accepted = 1 AND c.parent_id IS NOT NULL
         ");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result ?: [];
     }
 
     public function acceptCategory($category_id)
