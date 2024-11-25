@@ -14,26 +14,16 @@
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <div class="top-buttons">
-
+<div class="container">
+    <div class="top-buttons ms-5">
+        
         <?php if ($_SESSION['user_role'] !== 'nonreg'): ?>
-        <a href="index.php?page=dashboard" class="btn btn-primary">Späť na Dashboard</a>
+        <a href="index.php?page=dashboard" class="btn btn-outline-primary">Späť na Dashboard</a>
         <?php else: ?>
-        <a href="index.php?page=home" class="btn btn-primary">Späť na prihlásenie</a>
+        <a href="index.php?page=home" class="btn btn-outline-primary">Späť na prihlásenie</a>
         <?php endif; ?>
 
-        <?php if ($current_level != 'main'): ?>
-            <a href="<?php
-                if ($current_level == 'category') {
-                    echo 'index.php?page=browse_products';
-                } elseif ($current_level == 'subcategory' && isset($current_category['id'])) {
-                    echo 'index.php?page=browse_products&category_id=' . $current_category['id'];
-                }
-            ?>" class="btn btn-secondary">Späť</a>
-        <?php endif; ?>
     </div>
-    <br><br>
     <div style="clear: both;"></div>
     
     <div class="container mt-5">
@@ -117,7 +107,6 @@
         </div>
     <?php endif; ?>
 
-
     <?php if ($current_level == 'subcategory'): ?>
         <?php
         $is_others = ($current_subcategory['id'] == 998 || $current_subcategory['id'] == 999);
@@ -129,8 +118,18 @@
                 <?= htmlspecialchars($current_subcategory['name']) ?>
             <?php endif; ?>
         </h1>
-        
     <?php endif; ?>
+
+    <?php if ($current_level != 'main'): ?>
+        <a href="<?php
+            if ($current_level == 'category') {
+                echo 'index.php?page=browse_products';
+            } elseif ($current_level == 'subcategory' && isset($current_category['id'])) {
+                echo 'index.php?page=browse_products&category_id=' . $current_category['id'];
+            }
+        ?>" class="btn btn-outline-secondary mt-3">Späť</a>
+    <?php endif; ?>
+
     <br><br>
     <h3>Produkty:</h3>
         <div class="container">

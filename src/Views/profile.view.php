@@ -18,7 +18,6 @@
             background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             color: black;
             width: 400px;
         }
@@ -30,33 +29,37 @@
             margin-bottom: 15px;
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid lightgray;
             border-radius: 5px;
         }
         .form-container button {
             width: 100%;
-            background-color: #4CAF50;
+            background-color: green;
             color: white;
             border: none;
             padding: 10px;
             border-radius: 5px;
-            cursor: pointer;
         }
         .form-container button:hover {
-            background-color: #45a049;
+            background-color: darkgreen;
         }
         .form-container .delete-btn {
             background-color: red;
+        }
+        .form-container .delete-btn:hover {
+            background-color: darkred;
         }
     </style>
 </head>
 <body>
     <div class="form-container">
         <div class="top-buttons">
-            <a href="index.php?page=dashboard&role=<?= $_SESSION['user_role'] ?>" class="btn btn-primary">Späť na Dashboard</a>
+            <a href="index.php?page=dashboard&role=<?= $_SESSION['user_role'] ?>" class="btn btn-outline-primary">Späť</a>
         </div>
         <br></br>
+
         <h1>Upraviť profil</h1>
+
         <?php if (!empty($errors)): ?>
             <ul style="color: red;">
                 <?php foreach ($errors as $error): ?>
@@ -64,9 +67,11 @@
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
+
         <?php if (!empty($success)): ?>
             <p style="color: green;"><?= htmlspecialchars($success) ?></p>
         <?php endif; ?>
+
         <form method="post">
             <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" placeholder="Meno" required>
             <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" placeholder="Email" required>
@@ -75,8 +80,9 @@
             <input type="password" name="confirm_password" placeholder="Potvrdiť nové heslo">
             <button type="submit" name="update_profile">Uložiť zmeny</button>
         </form>
+
         <form method="post">
-            <button type="submit" name="delete_profile" class="delete-btn">Vymazať profil</button>
+            <button type="submit" name="delete_profile" class="delete-btn mt-2">Vymazať profil</button>
         </form>
     </div>
 </body>

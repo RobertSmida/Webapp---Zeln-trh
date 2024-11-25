@@ -1,8 +1,10 @@
 <?php
+
 session_start();
 require_once __DIR__ . '/../../config/database.php';
 $db = require __DIR__ . '/../../config/database.php';
 
+// Overenie ci je uzivatel prihlaseny
 if (!isset($_SESSION['user_id'])) {
     header('Location: index.php?page=login');
     exit();
@@ -12,7 +14,7 @@ $user_id = $_SESSION['user_id'];
 $errors = [];
 $success = "";
 
-// Načítanie údajov užívateľa
+// Nacitanie udajov uzivatela z db
 $stmt = $db->prepare("SELECT name, email FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -22,14 +24,17 @@ if (!$user) {
     exit();
 }
 
+// Spracovanie formulara pri POST poziadavku
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['update_profile'])) {
+
         $name = trim($_POST['name']);
         $email = trim($_POST['email']);
         $current_password = $_POST['current_password'] ?? '';
         $new_password = $_POST['new_password'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
 
+        // Validacia vstupnych udajov
         if (empty($name)) {
             $errors[] = "Meno nemôže byť prázdne.";
         }
@@ -40,11 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($email !== $user['email']) {
             $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
             $stmt->execute([$email]);
+
             if ($stmt->fetchColumn() > 0) {
                 $errors[] = "Email už existuje.";
             }
         }
 
+        // Validacia hesla v pripade zmeny
         if (!empty($current_password) || !empty($new_password)) {
             $stmt = $db->prepare("SELECT password FROM users WHERE id = ?");
             $stmt->execute([$user_id]);
@@ -52,15 +59,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (!password_verify($current_password, $current_user['password'])) {
                 $errors[] = "Nesprávne aktuálne heslo.";
-            } elseif ($new_password !== $confirm_password) {
+            } 
+            elseif ($new_password !== $confirm_password) {
                 $errors[] = "Nové heslá sa nezhodujú.";
-            } elseif (strlen($new_password) < 6) {
-                $errors[] = "Nové heslo musí mať aspoň 6 znakov.";
-            } else {
+            } 
+            elseif (strlen($new_password) < 5) {
+                $errors[] = "Nové heslo musí mať aspoň 5 znakov.";
+            } 
+            else {
                 $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
             }
         }
 
+        // Aktualizacia udajov uzivatela a presmerovanie
         if (empty($errors)) {
             $stmt = $db->prepare("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?");
             $stmt->execute([$name, $email, $hashed_password ?? $current_user['password'], $user_id]);
@@ -73,12 +84,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // Osetrenie vymazania uctu uzivatela
     if (isset($_POST['delete_profile'])) {
-        $stmt = $db->prepare("DELETE FROM users WHERE id = ?");
-        $stmt->execute([$user_id]);
-        session_destroy();
-        header('Location: index.php?page=home');
-        exit();
+        if ($user['role'] === 'admin') { // Kontrola, ci sa jedna o ucet admina
+            $errors[] = "Účet administrátora sa ned8 vymazať.";
+        }
+        else {
+            $stmt = $db->prepare("DELETE FROM users WHERE id = ?");
+            $stmt->execute([$user_id]);
+            session_destroy();
+            header('Location: index.php?page=home');
+            exit();
+        }
     }
 }
 
