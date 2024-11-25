@@ -34,12 +34,27 @@ class Product
 
     public function delete($product_id, $user_id)
     {
-        $stmt = $this->db->prepare("DELETE FROM orders WHERE product_id = ?");
-        $stmt->execute([$product_id]);
+        try {
+            // pre istotu transakcia nech sa tabulka nemeni pocas tejto operacie
+            $this->db->beginTransaction();
 
-        $stmt = $this->db->prepare("DELETE FROM products WHERE id = ? AND farmer_id = ?");
-        $stmt->execute([$product_id, $user_id]);
+            $stmt = $this->db->prepare("DELETE FROM harvest_events WHERE product_id = ?");
+            $stmt->execute([$product_id]);
+
+            $stmt = $this->db->prepare("DELETE FROM orders WHERE product_id = ?");
+            $stmt->execute([$product_id]);
+
+            $stmt = $this->db->prepare("DELETE FROM products WHERE id = ? AND farmer_id = ?");
+            $stmt->execute([$product_id, $user_id]);
+
+            $this->db->commit();
+        } catch (PDOException $e) {
+ 
+            $this->db->rollBack();
+            throw new PDOException("Produkt sa nedá vymazať: " . $e->getMessage());
+        }
     }
+
 
     public function getAllProducts()
     {
