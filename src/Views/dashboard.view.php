@@ -84,7 +84,6 @@
                     <li><a href="index.php?page=farmer_orders">Správa objednávok</a></li>
                     <li><a href="index.php?page=harvest_events">Moje samozbery</a></li>
                     <li><a href="index.php?page=suggest_category">Navrhnúť podkategóriu</a></li>
-
                 <?php elseif ($user['role'] === 'customer'): ?>
                     <li><a href="index.php?page=browse_products">Prehliadať produkty</a></li>
                     <li><a href="index.php?page=customer_orders">Moje objednávky</a></li>

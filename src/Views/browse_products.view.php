@@ -201,11 +201,12 @@
                             
                             <?php if ($_SESSION['user_role'] !== 'nonreg'): ?>
                             <td>
-                                <form method="post" action="index.php?page=add_to_cart" style="display: flex; gap: 5px;">
+                                <form method="post" action="index.php?page=add_to_cart" style="display: flex; gap: 3px;">
                                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                                     <button type="submit" name="quantity" value="0.1" class="btn btn-sm btn-primary">+100g</button>
                                     <button type="submit" name="quantity" value="0.5" class="btn btn-sm btn-primary">+500g</button>
-                                    <button type="submit" name="quantity" value="1.0" class="btn btn-sm btn-primary">+1000g</button>
+                                    <button type="submit" name="quantity" value="1.0" class="btn btn-sm btn-primary">+1kg</button>
+                                    <button type="submit" name="quantity" value="5.0" class="btn btn-sm btn-primary">+5kg</button>
                                 </form>
                             </td>
                             <?php endif; ?>

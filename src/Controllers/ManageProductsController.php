@@ -30,15 +30,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $price_per_unit = (float)$_POST['price_per_unit'];
         $available_quantity = (float)$_POST['available_quantity'];
         $category_id = (int)$_POST['category_id'];
+        $is_self_harvest = isset($_POST['is_self_harvest']) ? 1 : 0;
+    
+        if ($is_self_harvest) {
+            // Ziskavanie dat
+            $location = trim($_POST['location']);
+            $start_date = $_POST['start_date'];
+            $end_date = $_POST['end_date'];
+            $max_capacity = (int)$_POST['max_capacity'];
+            
+            // Kontrola vstupu
+            if (empty($location) || empty($start_date) || empty($end_date) || $max_capacity <= 0) {
+                $errors[] = "Všetky polia pre samozber sú povinné a musia byť validné.";
+            } else {
+                // Samozber - produkt data pre samozber
+                $product_id = $productModel->create($user_id, $name, $price_per_unit, $available_quantity, $category_id, $is_self_harvest);
 
-        if (empty($name) || $price_per_unit <= 0 || $available_quantity < 0 || $category_id <= 0) {
-            $errors[] = "Všetky polia sú povinné a musia byť validné.";
+                $stmt = $db->prepare("
+                    INSERT INTO harvest_events (farmer_id, name, location, start_date, end_date, max_capacity, status, product_id)
+                    VALUES (?, ?, ?, ?, ?, ?, 'open', ?)
+                ");
+                $stmt->execute([$user_id, $name, $location, $start_date, $end_date, $max_capacity, $product_id]);
+                $success = "Produkt a samozber boli úspešne vytvorené.";
+            }
         } else {
-            $productModel->create($user_id, $name, $price_per_unit, $available_quantity, $category_id);
+            // Obycajny produkt
+            $productModel->create($user_id, $name, $price_per_unit, $available_quantity, $category_id, $is_self_harvest);
             $success = "Produkt bol úspešne vytvorený.";
         }
     }
-
+    
     if (isset($_POST['update_product'])) {
         $product_id = (int)$_POST['product_id'];
         $name = trim($_POST['name']);

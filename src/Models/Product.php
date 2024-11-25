@@ -16,12 +16,16 @@ class Product
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function create($user_id, $name, $price_per_unit, $available_quantity, $category_id)
+    public function create($user_id, $name, $price_per_unit, $available_quantity, $category_id, $is_self_harvest = 0)
     {
-        $stmt = $this->db->prepare("INSERT INTO products (farmer_id, name, price_per_unit, available_quantity, category_id) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$user_id, $name, $price_per_unit, $available_quantity, $category_id]);
-    }
+        $stmt = $this->db->prepare("
+            INSERT INTO products (farmer_id, name, price_per_unit, available_quantity, category_id, is_self_harvest) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([$user_id, $name, $price_per_unit, $available_quantity, $category_id, $is_self_harvest]);
 
+        return $this->db->lastInsertId();
+    }
     public function update($product_id, $user_id, $name, $price_per_unit, $available_quantity)
     {
         $stmt = $this->db->prepare("UPDATE products SET name = ?, price_per_unit = ?, available_quantity = ? WHERE id = ? AND farmer_id = ?");

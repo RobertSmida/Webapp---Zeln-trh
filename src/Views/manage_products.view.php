@@ -59,29 +59,61 @@
         </table>
 
         <h2 class="h5 mt-4">Pridať nový produkt</h2>
-        <form method="post">
-            <div class="mb-3">
-                <label for="name" class="form-label">Názov produktu</label>
-                <input type="text" id="name" name="name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="price_per_unit" class="form-label">Cena (€)</label>
-                <input type="number" id="price_per_unit" name="price_per_unit" class="form-control" step="0.01" required>
-            </div>
-            <div class="mb-3">
-                <label for="available_quantity" class="form-label">Množstvo</label>
-                <input type="number" id="available_quantity" name="available_quantity" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="category_id" class="form-label">Podkategória</label>
-                <select id="category_id" name="category_id" class="form-select" required>
-                    <option value="">-- Vyberte podkategóriu --</option>
-                    <?php foreach ($subcategories as $subcategory): ?>
-                        <option value="<?= htmlspecialchars($subcategory['id']) ?>"><?= htmlspecialchars($subcategory['name']) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <button type="submit" name="create_product" class="btn btn-success">Pridať produkt</button>
+            <form method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Názov produktu</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price_per_unit" class="form-label">Cena (€)</label>
+                    <input type="number" id="price_per_unit" name="price_per_unit" class="form-control" step="0.01" required>
+                </div>
+                <div class="mb-3">
+                    <label for="available_quantity" class="form-label">Množstvo</label>
+                    <input type="number" id="available_quantity" name="available_quantity" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category_id" class="form-label">Podkategória</label>
+                    <select id="category_id" name="category_id" class="form-select" required>
+                        <option value="">-- Vyberte podkategóriu --</option>
+                        <?php foreach ($subcategories as $subcategory): ?>
+                            <option value="<?= htmlspecialchars($subcategory['id']) ?>"><?= htmlspecialchars($subcategory['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" id="is_self_harvest" name="is_self_harvest" class="form-check-input" onclick="toggleSelfHarvestFields()">
+                    <label for="is_self_harvest" class="form-check-label">Samozber</label>
+                </div>
+
+                <div id="self-harvest-fields" style="display: none;">
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Lokalita</label>
+                        <input type="text" id="location" name="location" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Začiatok</label>
+                        <input type="datetime-local" id="start_date" name="start_date" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="end_date" class="form-label">Koniec</label>
+                        <input type="datetime-local" id="end_date" name="end_date" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="max_capacity" class="form-label">Max kapacita</label>
+                        <input type="number" id="max_capacity" name="max_capacity" class="form-control">
+                    </div>
+                </div>
+
+                <button type="submit" name="create_product" class="btn btn-success">Pridať produkt</button>
+            </form>
+
+            <script>
+                function toggleSelfHarvestFields() {
+                    const fields = document.getElementById('self-harvest-fields');
+                    fields.style.display = fields.style.display === 'none' ? 'block' : 'none';
+                }
+            </script>
         </form>
     </div>
 </body>
