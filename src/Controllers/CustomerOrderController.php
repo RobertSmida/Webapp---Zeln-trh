@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
         exit();
     }
 
-    $stmt = $db->prepare("SELECT number_of_reviews, average_rating FROM products WHERE id = ?");
+    $stmt = $db->prepare("SELECT number_of_reviews, average_rating, farmer_id FROM products WHERE id = ?");
     $stmt->execute([$product_id]);
     $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
