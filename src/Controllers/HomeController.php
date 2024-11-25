@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['user_id'])) {
-    header('Location: dashboard.php'); // Ak je užívateľ prihlásený, presmerovať na dashboard.
+    header('Location: dashboard.php'); // Ak je uzivatel prihlaseny, presmeruj ho na dashboard
     exit();
 }
 

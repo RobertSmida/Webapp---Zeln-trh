@@ -7,7 +7,7 @@
 <body class="bg-light">
     <div class="container mt-5">
         <h1 class="mb-4">Správa užívateľov</h1>
-        <a href="index.php?page=dashboard" class="btn btn-secondary mb-3">Späť</a>
+        <a href="index.php?page=dashboard" class="btn btn-outline-primary mb-3">Späť</a>
 
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">

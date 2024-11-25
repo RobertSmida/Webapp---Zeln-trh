@@ -4,7 +4,7 @@ require_once __DIR__ . '/../Models/User.php';
 session_start();
 require_once __DIR__ . '/../../config/database.php';
 
-// Overenie, či je užívateľ prihlásený ako administrátor
+// Overenie ci je uzivatel prihlaseny ako administrator
 if (!isset($_SESSION['user_id'])) {
     header('Location: index.php?page=login');
     exit();
@@ -15,9 +15,10 @@ $userModel = new User($db);
 $errors = [];
 $success = "";
 
-// Spracovanie formulára
+// Spracovanie formulara, zmena udajov alebo vymazanie uctu
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['update_user'])) {
+
         $user_id = (int)$_POST['user_id'];
         $name = trim($_POST['name']);
         $email = trim($_POST['email']);
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Načítanie všetkých užívateľov
+// Nacitanie uzivatelov
 $users = $userModel->getAll();
 
 require __DIR__ . '/../Views/manage_users.view.php';
