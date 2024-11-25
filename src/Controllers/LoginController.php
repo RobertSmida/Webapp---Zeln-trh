@@ -4,6 +4,8 @@ session_start();
 require_once __DIR__ . '/../../config/database.php';
 $db = require __DIR__ . '/../../config/database.php';
 
+$email = ''; // Uchovanie hodnoty v poli s emailom
+
 // Overenie pokusu o prihlasenie
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

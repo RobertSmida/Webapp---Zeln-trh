@@ -64,12 +64,14 @@
     <div>
         <h1>Prihlásenie</h1>
 
-        <?php if (isset($error)): ?>
-            <p style="color: red;"><?= htmlspecialchars($error) ?></p>
+        <?php if (!empty($error)): ?>
+            <div class="alert alert-danger">
+                <a><?= htmlspecialchars($error) ?></a>
+            </div>
         <?php endif; ?>
 
         <form method="post">
-            <input type="email" name="email" placeholder="Email" required>
+            <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>" required>
             <input type="password" name="password" placeholder="Heslo" required>
             <button type="submit">Prihlásiť sa</button>
         </form>

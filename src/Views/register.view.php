@@ -65,21 +65,23 @@
         <h1>Registrácia</h1>
 
         <?php if (!empty($errors)): ?>
-            <ul style="color: red;">
+            
+            <div class="alert alert-danger">
                 <?php foreach ($errors as $error): ?>
-                    <li><?= htmlspecialchars($error) ?></li>
+                    <a><?= htmlspecialchars($error) ?></a>
+                    <br>
                 <?php endforeach; ?>
-            </ul>
+            </div>
         <?php endif; ?>
 
         <form method="post">
-            <input type="text" name="name" placeholder="meno" required>
+            <input type="text" name="name" placeholder="meno" value="<?= htmlspecialchars($name) ?>" required>
             <br>
-            <input type="email" name="email" placeholder="email" required>
+            <input type="email" name="email" placeholder="email" value="<?= htmlspecialchars($email) ?>" required>
             <br>
-            <input type="password" name="password" placeholder="heslo" required>
+            <input type="password" name="password" placeholder="heslo" value="<?= htmlspecialchars($password) ?>" required>
             <br>
-            <input type="password" name="confirm_password" placeholder="potvrdiť heslo" required>
+            <input type="password" name="confirm_password" placeholder="potvrdiť heslo" value="<?= htmlspecialchars($confirm_password) ?>" required>
             <br>
             <button type="submit">Registrovať sa</button>
         </form>

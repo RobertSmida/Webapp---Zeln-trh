@@ -4,6 +4,10 @@ require_once __DIR__ . '/../../config/database.php';
 $db = require __DIR__ . '/../../config/database.php';
 
 $errors = [];
+$name = ''; // Uchovanie zadanych hodnot formulara
+$email = '';
+$password = '';
+$confirm_password = '';
 
 // Spracovanie registracie noveho uzivatela
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
