@@ -8,7 +8,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f7f8;
+            background-color: #E8FFD5;
         }
         .container {
             max-width: 800px;

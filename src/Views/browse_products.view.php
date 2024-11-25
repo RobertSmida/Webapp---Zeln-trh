@@ -2,8 +2,12 @@
 <html>
 <head>
     <title>Prehliadať produkty</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #E8FFD5;
+             }
         .top-buttons {
             position: absolute;
             top: 15px;
